@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BsCamera } from "react-icons/bs";
 import { IoSearch } from "react-icons/io5";
 
@@ -9,23 +9,36 @@ const placeholderTexts = [
   "travertine",
   "onyx",
   "quartz",
-  "indian granite"
-]
+  "indian granite",
+];
 
 const LandingPage = () => {
-  const [placeholder, setPlaceholder] = useState(placeholderTexts[0])
+  const imgRef = useRef(null);
+  const [placeholder, setPlaceholder] = useState(placeholderTexts[0]);
+  const [uploadedImage, setUploadedImage] = useState(null); // State to store the uploaded image
   let currentIndex = 0;
 
   useEffect(() => {
     const interval = setInterval(() => {
       currentIndex = (currentIndex + 1) % placeholderTexts.length;
-      setPlaceholder(placeholderTexts[currentIndex])
-    }, 2000)
+      setPlaceholder(placeholderTexts[currentIndex]);
+    }, 2000);
 
-    return () => clearInterval(interval)
-  },[])
+    return () => clearInterval(interval);
+  }, []);
 
-  
+  const onClickCameraIcon = () => {
+    imgRef.current.click();
+  };
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setUploadedImage(imageUrl); // Set the image URL to display the preview
+    }
+  };
+
   return (
     <div className="relative h-screen xl:h-[70vh]">
       <img
@@ -42,15 +55,40 @@ const LandingPage = () => {
           <h1 className="text-xl md:text-2xl lg:text-4xl xl:text-5xl font-semibold text-white">
             The Leading B2B ecommerce platform for global trade
           </h1>
-          <div className="md:mt-5 flex bg-white rounded-full p-1 lg:p-3 gap-2 md:gap-5">
-            <input
-              type="search"
-              className="w-full outline-none rounded-full pl-2 md:pl-5 text-sm md:text-lg" placeholder={placeholder}
-            />
-            <div className="flex items-center gap-2 md:gap-5">
-              <span>
-                <BsCamera className="text-xl md:text-2xl lg:text-3xl" />
-              </span>
+          <div className="md:mt-5 flex bg-white rounded-full p-1 lg:p-3 gap-2 md:gap-5 overflow-hidden">
+            {uploadedImage ? (
+              <input
+                type="search"
+                className="w-[75%] outline-none rounded-full pl-2 md:pl-5 text-sm md:text-lg"
+                placeholder={placeholder}
+              />
+            ) : (
+              <input
+                type="search"
+                className="w-full outline-none rounded-full pl-2 md:pl-5 text-sm md:text-lg"
+                placeholder={placeholder}
+              />
+            )}
+            <div className="flex items-center gap-2 md:gap-3">
+              {uploadedImage && (
+                <img
+                  src={uploadedImage}
+                  alt="Uploaded"
+                  className="w-12 h-12 rounded-full object-cover border"
+                />
+              )}
+              <div className="relative flex items-center gap-2">
+                <BsCamera
+                  className="text-xl md:text-2xl lg:text-3xl cursor-pointer"
+                  onClick={onClickCameraIcon}
+                />
+                <input
+                  type="file"
+                  hidden
+                  ref={imgRef}
+                  onChange={handleImageUpload} // Handle image upload
+                />
+              </div>
               <button className="bg-[#ff6a00] flex items-center gap-2 p-1 md:p-3 rounded-full text-white font-semibold">
                 <span>
                   <IoSearch className="text-lg md:text-xl lg:text-2xl" />

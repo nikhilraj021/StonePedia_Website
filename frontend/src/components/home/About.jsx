@@ -56,7 +56,7 @@ const About = () => {
           REDEFINING STONE SOURCING
         </p>
         <h1 className="text-2xl md:text-4xl font-serif text-white">
-          Why <span className="text-red-500">StonePedia</span>?
+          Why <span className="">StonePedia</span>?
         </h1>
 
         <div className="flex justify-center md:px-10">
