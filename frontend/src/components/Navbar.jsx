@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { LuLogOut } from "react-icons/lu";
 import { motion } from "framer-motion";
 import SubNavbar from "./SubNavbar";
 
@@ -61,7 +62,7 @@ const Navbar = () => {
             </Link>
 
             <ul
-              className={`hidden md:flex space-x-2 lg:space-x-8 font-semibold ${
+              className={`hidden md:flex items-center space-x-2 lg:space-x-8 font-semibold ${
                 isScrolled || isNotHome || isHovered
                   ? "text-black"
                   : "text-gray-200"
@@ -141,19 +142,30 @@ const Navbar = () => {
                 </a>
               </motion.li>
 
-              <Link to="/login">
+              {/* <Link to="/login">
                 <li className="bg-orange-500 px-2 rounded-xl">
                   <a href="#" className="hover:text-black ">
                     LOGIN
                   </a>
                 </li>
-              </Link>
+              </Link> */}
 
-              <Link to="/signup">
+              {/* <Link to="/signup">
                 <li className="bg-orange-500 px-2 rounded-xl">
                   <a href="#" className="hover:text-black">
                     SIGNUP
                   </a>
+                </li>
+              </Link> */}
+
+              <Link to="">
+                <li className=" flex items-center gap-2 bg-orange-500 p-2 rounded-xl hover:text-black">
+                  <a href="#" className="">
+                    Logout
+                  </a>
+                  <span>
+                    <LuLogOut size={20} />
+                  </span>
                 </li>
               </Link>
             </ul>
