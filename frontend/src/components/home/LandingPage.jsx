@@ -9,6 +9,7 @@ const placeholderTexts = [
   "travertine",
   "onyx",
   "quartz",
+  "indian granite"
 ]
 
 const LandingPage = () => {
