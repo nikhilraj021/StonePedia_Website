@@ -15,8 +15,13 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      // console.log("User Logged in Successfully");
+      const response = await signInWithEmailAndPassword(auth, email, password);
+      console.log("User Logged in Successfully", response);
+       // Get the ID token after successful login
+       const idToken = await response.user.getIdToken();
+
+       // Store the ID token in localStorage
+       localStorage.setItem("authToken", idToken);
       toast.success("User Logged in Successfully!!", {
         position: "top-center",
         autoClose: 2000

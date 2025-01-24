@@ -10,10 +10,17 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [fName, setFName] = useState("");
   const [uName, setUName] = useState("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
+    if (!email || !password || !fName || !uName) {
+      toast.error("Please fill out all fields.", {
+        position: "bottom-center",
+        autoClose: 2000,
+      });
+      return; // Stop form submission if any field is empty
+    }
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       const user = auth.currentUser;
@@ -22,22 +29,22 @@ const Signup = () => {
         await setDoc(doc(db, "Users", user.uid), {
           email: user.email,
           firstName: fName,
-          userName: uName, 
+          userName: uName,
         });
       }
       console.log("User Registered Successfully");
       toast.success("User Registered Successfully!!", {
         position: "top-center",
-        autoClose:2000
-      })
-      navigate("/login")      
+        autoClose: 2000,
+      });
+      navigate("/login");
     } catch (error) {
       console.log(error.message);
-      const errorMessage = error.message.replace(/^Firebase : /, "")
-      toast.success(errorMessage, {
+      const errorMessage = error.message.replace(/^Firebase: /, "");
+      toast.error(errorMessage, {
         position: "bottom-center",
-        autoClose:2000
-      })
+        autoClose: 2000,
+      });
     }
   };
 

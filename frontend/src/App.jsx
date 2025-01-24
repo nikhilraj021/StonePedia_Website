@@ -18,24 +18,33 @@ const AppWrapper = () => {
 
   return (
     <div>
-      {/* Show Navbar only on protected pages */}
       {location.pathname !== "/signup" && location.pathname !== "/login" && (
         <Navbar />
       )}
 
-      {/* ToastContainer for notifications */}
       <ToastContainer />
 
       <Routes>
-        {/* Public Routes */}
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-
-        {/* Protected Routes */}
+        <Route
+          path="/signup"
+          element={
+            <ProtectedRoute restricted={true}>
+              <Signup />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <ProtectedRoute restricted={true}>
+              <Login />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute restricted={false}>
               <Home />
             </ProtectedRoute>
           }
@@ -43,7 +52,7 @@ const AppWrapper = () => {
         <Route
           path="/category"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute restricted={false}>
               <Category />
             </ProtectedRoute>
           }

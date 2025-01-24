@@ -1,17 +1,20 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { auth } from "../firebase/firebase"; // Import your Firebase auth instance
 
-const ProtectedRoute = ({ children }) => {
-  const user = auth.currentUser; // Check the current authenticated user
+const ProtectedRoute = ({ children, restricted }) => {
+  const authToken = localStorage.getItem("authToken");
 
-  if (!user) {
-    // Redirect unauthenticated users to the login page
+  if (restricted && authToken) {
+    // If the user is logged in and trying to access login or signup, redirect them to home
+    return <Navigate to="/" replace />;
+  }
+
+  if (!authToken && !restricted) {
+    // If the user is not logged in and trying to access protected routes, redirect them to login
     return <Navigate to="/login" replace />;
   }
 
-  // Render child components for authenticated users
-  return children;
+  return children; // Render children if conditions are satisfied
 };
 
 export default ProtectedRoute;

@@ -35,6 +35,7 @@ const Navbar = () => {
   }, []);
 
   const handleLogOut = () =>{
+    localStorage.removeItem("authToken");
     signOut(auth)
     .then(()=>{
       console.log("User Logged out successfully!!")
