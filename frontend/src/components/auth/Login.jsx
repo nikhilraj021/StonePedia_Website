@@ -8,6 +8,10 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const handleLogin = (e) =>{
+    e.preventDefault();
+  }
+
   return (
     <div className="relative h-screen overflow-hidden">
       <video
@@ -29,7 +33,7 @@ const Login = () => {
               />
             </Link>
 
-            <form action="" className="space-y-2 md:flex flex-col items-center">
+            <form action="" onClick={handleLogin} className="space-y-2 md:flex flex-col items-center">
               <input
                 type="email"
                 className="border border-gray-400 outline-none bg-[#FAFAFA] p-2 placeholder-slate-500 text-xs w-60 md:w-72 rounded-sm"
@@ -45,7 +49,7 @@ const Login = () => {
                 value={password}
               />
               <div className="py-3">
-                <button className="bg-gradient-to-r from-yellow-300 to-pink-800 w-60 md:w-72 text-white font-semibold py-1 rounded-md">
+                <button type="submit" className="bg-gradient-to-r from-yellow-300 to-pink-800 w-60 md:w-72 text-white font-semibold py-1 rounded-md">
                   Log in
                 </button>
               </div>
