@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Signup = () => {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [fName, setFName] = useState("")
+  const [uName, setUName] = useState("")
+
   return (
     <div className="relative h-screen overflow-hidden">
       <video
@@ -11,7 +16,7 @@ const Signup = () => {
         loop
         muted
       />
-
+      
       <div className="relative z-10 flex justify-center items-center h-full bg-black bg-opacity-50">
         <div className="text-center m-3 md:px-8 md:w-[430px] w-full">
           <div className="md:border bg-white bg-opacity-20 p-6 rounded-lg">
@@ -29,24 +34,33 @@ const Signup = () => {
 
             <form action="" className="space-y-2 md:flex flex-col items-center">
               <input
-                type="text"
+                type="email"
                 className="border border-gray-400 outline-none bg-[#FAFAFA] p-2 placeholder-slate-500 text-xs w-60 md:w-72 rounded-sm"
-                placeholder="Mobile Number or Email"
+                placeholder="Email"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
               />
+
               <input
                 type="password"
                 className="border border-gray-400 outline-none bg-[#FAFAFA] p-2 placeholder-slate-500 text-xs w-60 md:w-72 rounded-sm"
                 placeholder="Password"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
               />
               <input
                 type="text"
                 className="border border-gray-400 outline-none bg-[#FAFAFA] p-2 placeholder-slate-500 text-xs w-60 md:w-72 rounded-sm"
                 placeholder="Full Name"
+                onChange={(e) => setFName(e.target.value)}
+                value={fName}
               />
               <input
                 type="text"
                 className="border border-gray-400 outline-none bg-[#FAFAFA] p-2 placeholder-slate-500 text-xs w-60 md:w-72 rounded-sm"
                 placeholder="Username"
+                onChange={(e) => setUName(e.target.value)}
+                value={uName}
               />
 
               <p className="text-xs text-white px-8 py-1">
