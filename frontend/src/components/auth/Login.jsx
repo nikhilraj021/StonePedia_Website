@@ -1,16 +1,36 @@
 import React, { useState } from "react";
 import { IoLogoFacebook } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { GrInstagram } from "react-icons/gr";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase/firebase";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate()
 
-  const handleLogin = (e) =>{
+  const handleLogin = async (e) => {
     e.preventDefault();
-  }
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      // console.log("User Logged in Successfully");
+      toast.success("User Logged in Successfully!!", {
+        position: "top-center",
+        autoClose: 2000
+      });
+      navigate("/")
+    } catch (error) {
+      // console.log(error.message);
+      const errorMessage = error.message.replace(/^Firebase: /, "");
+      toast.error(errorMessage, {
+        position: "bottom-center",
+        autoClose: 2000
+      });
+    }
+  };
 
   return (
     <div className="relative h-screen overflow-hidden">
@@ -33,7 +53,11 @@ const Login = () => {
               />
             </Link>
 
-            <form action="" onClick={handleLogin} className="space-y-2 md:flex flex-col items-center">
+            <form
+              action=""
+              onSubmit={handleLogin}
+              className="space-y-2 md:flex flex-col items-center"
+            >
               <input
                 type="email"
                 className="border border-gray-400 outline-none bg-[#FAFAFA] p-2 placeholder-slate-500 text-xs w-60 md:w-72 rounded-sm"
@@ -42,14 +66,17 @@ const Login = () => {
                 value={email}
               />
               <input
-                type="text"
+                type="password"
                 className="border border-gray-400 outline-none bg-[#FAFAFA] p-2 placeholder-slate-500 text-xs w-60 md:w-72 rounded-sm"
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
               />
               <div className="py-3">
-                <button type="submit" className="bg-gradient-to-r from-yellow-300 to-pink-800 w-60 md:w-72 text-white font-semibold py-1 rounded-md">
+                <button
+                  type="submit"
+                  className="bg-gradient-to-r from-yellow-300 to-pink-800 w-60 md:w-72 text-white font-semibold py-1 rounded-md"
+                >
                   Log in
                 </button>
               </div>

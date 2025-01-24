@@ -4,6 +4,9 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { LuLogOut } from "react-icons/lu";
 import { motion } from "framer-motion";
 import SubNavbar from "./SubNavbar";
+import { toast } from "react-toastify";
+import { signOut } from "firebase/auth";
+import { auth } from "./firebase/firebase";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,6 +33,13 @@ const Navbar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  const handleLogOut = () =>{
+    signOut(auth)
+    .then(()=>{
+      console.log("User Logged out successfully!!")
+    })
+  }
 
   // Determine if navbar should have a background color
   const isNotHome = location.pathname !== "/";
@@ -158,8 +168,7 @@ const Navbar = () => {
                 </li>
               </Link> */}
 
-              <Link to="">
-                <li className=" flex items-center gap-2 bg-orange-500 p-2 rounded-xl hover:text-black">
+                <li onClick={handleLogOut} className=" flex items-center gap-2 bg-orange-500 p-2 rounded-xl hover:text-black">
                   <a href="#" className="">
                     Logout
                   </a>
@@ -167,7 +176,7 @@ const Navbar = () => {
                     <LuLogOut size={20} />
                   </span>
                 </li>
-              </Link>
+            
             </ul>
 
             <span

@@ -1,15 +1,45 @@
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { auth, db } from "../firebase/firebase";
+import { setDoc, doc } from "firebase/firestore";
+import { toast } from "react-toastify";
 
 const Signup = () => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [fName, setFName] = useState("")
-  const [uName, setUName] = useState("")
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fName, setFName] = useState("");
+  const [uName, setUName] = useState("");
+  const navigate = useNavigate()
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
-  }
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      const user = auth.currentUser;
+      console.log(user);
+      if (user) {
+        await setDoc(doc(db, "Users", user.uid), {
+          email: user.email,
+          firstName: fName,
+          userName: uName, 
+        });
+      }
+      console.log("User Registered Successfully");
+      toast.success("User Registered Successfully!!", {
+        position: "top-center",
+        autoClose:2000
+      })
+      navigate("/login")      
+    } catch (error) {
+      console.log(error.message);
+      const errorMessage = error.message.replace(/^Firebase : /, "")
+      toast.success(errorMessage, {
+        position: "bottom-center",
+        autoClose:2000
+      })
+    }
+  };
 
   return (
     <div className="relative h-screen overflow-hidden">
@@ -36,7 +66,11 @@ const Signup = () => {
               Sign up to see awesome marbles and granites..
             </p>
 
-            <form action="" onSubmit={handleSignUp} className="space-y-2 md:flex flex-col items-center">
+            <form
+              action=""
+              onSubmit={handleSignUp}
+              className="space-y-2 md:flex flex-col items-center"
+            >
               <input
                 type="email"
                 className="border border-gray-400 outline-none bg-[#FAFAFA] p-2 placeholder-slate-500 text-xs w-60 md:w-72 rounded-sm"
@@ -78,7 +112,10 @@ const Signup = () => {
               {/* text-[#00376B] */}
 
               <div className="md:py-3">
-                <button type="submit" className="bg-gradient-to-r from-yellow-300 to-pink-800 hover:bg-gradient-to-r hover:from-pink-800 hover:to-yellow-300 w-60 md:w-72 text-white font-semibold py-1 rounded-md">
+                <button
+                  type="submit"
+                  className="bg-gradient-to-r from-yellow-300 to-pink-800 hover:bg-gradient-to-r hover:from-pink-800 hover:to-yellow-300 w-60 md:w-72 text-white font-semibold py-1 rounded-md"
+                >
                   Sign up
                 </button>
               </div>
