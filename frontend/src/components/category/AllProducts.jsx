@@ -177,6 +177,7 @@ const AllProducts = () => {
       <div className="w-full border mb-5 rounded-lg shadow-lg">
         <div className="flex justify-between pt-3 px-5">
           <h1 className="font-bold text-2xl text-gray-100">All Products</h1>
+          <p>{allProducts.length}</p>
         </div>
         {paginatedProducts.length > 0 ? (
           <ul className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5 lg:gap-10 p-5 w-full">
