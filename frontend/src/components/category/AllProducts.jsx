@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase/firebase"; // Adjust the path to your firebase.js
 import Sorting from "./Sorting";
-import allProductsData from '../../allProducts.json'
 import { FaAngleDoubleLeft, FaAngleDoubleRight } from "react-icons/fa";
 
 const AllProducts = () => {
@@ -9,11 +10,31 @@ const AllProducts = () => {
   const [selectedColor, setSelectedColor] = useState([]);
   const [selectedRating, setSelectedRating] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(8); // Default for non-2xl screens
-  const [allProducts, setAllProducts] = useState(allProductsData);
+  const [itemsPerPage, setItemsPerPage] = useState(8);
+  const [allProducts, setAllProducts] = useState([]);
+  // const [loading, setLoading] = useState(true);
+
+  // Fetch data from Firestore
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "allProducts"));
+        const products = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        // console.log(products)
+        setAllProducts(products);
+        // setLoading(false);
+      } catch (error) {
+        console.error("Error fetching products: ", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
-    // Check screen width on resize and set items per page accordingly
     const handleResize = () => {
       if (window.innerWidth >= 1536) {
         setItemsPerPage(10); // For 2xl and larger screens
@@ -22,13 +43,11 @@ const AllProducts = () => {
       }
     };
 
-    // Call handleResize when the component mounts and on resize
     handleResize(); // Call it once for initial load
     window.addEventListener("resize", handleResize);
 
-    // Cleanup the event listener on component unmount
     return () => window.removeEventListener("resize", handleResize);
-  }, []); // Empty dependency array to run once
+  }, []);
 
   const filteredProducts = allProducts.filter((product) => {
     const matchesSearch = product.title
@@ -62,7 +81,7 @@ const AllProducts = () => {
 
   const renderPagination = () => {
     const pages = [];
-    const maxVisiblePages = 3; // Fixed number of visible buttons
+    const maxVisiblePages = 3;
     const startPage = Math.max(
       1,
       Math.min(
@@ -72,7 +91,6 @@ const AllProducts = () => {
     );
     const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
 
-    // Always show the first two pages
     if (startPage > 1) {
       pages.push(
         <button
@@ -97,7 +115,6 @@ const AllProducts = () => {
       }
     }
 
-    // Add the middle pages
     for (let i = startPage; i <= endPage; i++) {
       pages.push(
         <button
@@ -114,7 +131,6 @@ const AllProducts = () => {
       );
     }
 
-    // Always show the last two pages
     if (endPage < totalPages) {
       if (endPage < totalPages - 1) {
         pages.push(
@@ -142,6 +158,10 @@ const AllProducts = () => {
     return pages;
   };
 
+  // if (loading) {
+  //   return <p>Loading products...</p>;
+  // }
+
   return (
     <div className="md:px-10 lg:px-16 lg:py-5 xl:px-20 2xl:px-32 px-5 md:flex gap-10 max-md:space-y-5">
       <Sorting
@@ -165,18 +185,15 @@ const AllProducts = () => {
                 key={product.id}
                 className="border rounded-lg shadow-md hover:shadow-lg cursor-pointer bg-gray-900"
               >
-                <img  
-                  src={product.image}
+                <img
+                  src={product.imgUrl}
                   alt={product.title}
-                  className="w-full  object-cover rounded-md border-b"
+                  className="w-full object-cover rounded-md border-b"
                 />
                 <div className="p-2 h-20 md:h-24 xl:h-28 flex flex-col justify-between overflow-hidden">
                   <h2 className="md:text-base 2xl:text-lg font-semibold text-white">
                     {product.title}
                   </h2>
-                  {/* <p className="text-orange-500 md:text-sm lg:text-base">
-                    By {product.shopBy}
-                  </p> */}
                   <div className="self-end">
                     <p className="text-white md:text-sm lg:text-base font-semibold bg-[#3b82f6] px-2 py-1 rounded-lg">
                       {product.rating} ★
@@ -191,9 +208,7 @@ const AllProducts = () => {
             <p className="text-gray-400">No Products Found</p>
           </div>
         )}
-        {/* Pagination Controls */}
         <div className="flex justify-center items-center gap-2 py-3">
-          {/* Previous Button */}
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
@@ -206,10 +221,8 @@ const AllProducts = () => {
             <FaAngleDoubleLeft size={20} />
           </button>
 
-          {/* Render Dynamic Pagination */}
           {renderPagination()}
 
-          {/* Next Button */}
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
