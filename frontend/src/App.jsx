@@ -14,6 +14,7 @@ import Admin from "./components/admin/Admin";
 import { ToastContainer } from "react-toastify";
 import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
 import BecomeASupplier from "./components/navbar/BecomeASupplier";
+import ProductDetails from "./components/category/ProductDetails";
 
 const AppWrapper = () => {
   const location = useLocation();
@@ -56,6 +57,14 @@ const AppWrapper = () => {
           element={
             <ProtectedRoute restricted={false}>
               <Category />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/product-details"
+          element={
+            <ProtectedRoute restricted={false}>
+              <ProductDetails />
             </ProtectedRoute>
           }
         />

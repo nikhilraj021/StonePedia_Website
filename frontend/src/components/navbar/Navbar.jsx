@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { BsCart3 } from "react-icons/bs";
 import { LuLogOut } from "react-icons/lu";
 import { motion } from "framer-motion";
 import SubNavbar from "./SubNavbar";
@@ -127,6 +128,16 @@ const Navbar = () => {
                   CONTACT
                 </a>
               </motion.li>
+
+              <div className="relative inline-block cursor-pointer">
+                <span className=" cursor-pointer">
+                  <BsCart3 size={20} />
+                </span>
+                <span className="absolute -top-4 px-1 py-0.5 -right-2 bg-orange-500 text-white text-xs font-bold rounded-full">
+                  1
+                </span>
+              </div>
+
               <li
                 onClick={handleLogOut}
                 className="flex items-center gap-2 bg-orange-500 p-2 rounded-xl hover:text-black"

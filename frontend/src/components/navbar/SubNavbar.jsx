@@ -430,19 +430,22 @@ const SubNavbar = ({ isHovered, onMouseEnter, onMouseLeave }) => {
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       >
-        <li
-          className={`cursor-pointer ${
-            isHovered ? "text-black" : "text-white"
-          } ${
-            isBuyerCentralHovered
-              ? "font-bold underline underline-offset-4"
-              : ""
-          }`}
-          onMouseEnter={() => setIsBuyerCentralHovered(true)}
-          onMouseLeave={() => setIsBuyerCentralHovered(false)}
-        >
-          Buyer Central
-        </li>
+        <Link to="/product-details">
+          <li
+            className={`cursor-pointer ${
+              isHovered ? "text-black" : "text-white"
+            } ${
+              isBuyerCentralHovered
+                ? "font-bold underline underline-offset-4"
+                : ""
+            }`}
+            onMouseEnter={() => setIsBuyerCentralHovered(true)}
+            onMouseLeave={() => setIsBuyerCentralHovered(false)}
+          >
+            Buyer Central
+          </li>
+        </Link>
+
         <li
           className={`cursor-pointer ${
             isHovered ? "text-black" : "text-white"
