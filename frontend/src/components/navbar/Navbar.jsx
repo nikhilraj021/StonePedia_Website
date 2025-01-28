@@ -134,13 +134,13 @@ const Navbar = () => {
                   <BsCart3 size={20} />
                 </span>
                 <span className="absolute -top-4 px-1 py-0.5 -right-2 bg-orange-500 text-white text-xs font-bold rounded-full">
-                  1
+                  0
                 </span>
               </div>
 
               <li
                 onClick={handleLogOut}
-                className="flex items-center gap-2 bg-orange-500 p-2 rounded-xl hover:text-black"
+                className="flex items-center gap-2 text-white bg-orange-500 p-2 rounded-xl hover:text-black"
               >
                 <a href="#">Logout</a>
                 <span>
