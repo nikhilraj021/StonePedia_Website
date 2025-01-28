@@ -13,6 +13,9 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const location = useLocation();
+  const userEmail = localStorage.getItem("userEmail");
+
+  const adminEmails = ["admin@stonepedia.com", "superuser@stonepedia.com"];
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -34,17 +37,21 @@ const Navbar = () => {
     };
   }, []);
 
-  const handleLogOut = () =>{
+  const handleLogOut = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("userEmail");
     signOut(auth)
-    .then(()=>{
-      console.log("User Logged out successfully!!")
-    })
-  }
+      .then(() => {
+        console.log("User Logged out successfully!!");
+      })
+      .catch((error) => {
+        console.log("Error logging out:", error);
+      });
+  };
 
   // Determine if navbar should have a background color
   const isNotHome = location.pathname !== "/";
+  const isAdmin = adminEmails.includes(userEmail); // Check if user is admin
 
   return (
     <div
@@ -73,14 +80,34 @@ const Navbar = () => {
               )}
             </Link>
 
-            <ul
-              className={`hidden md:flex items-center space-x-2 lg:space-x-8 font-semibold ${
-                isScrolled || isNotHome || isHovered
-                  ? "text-black"
-                  : "text-gray-200"
-              } text-sm`}
-            >
-              <Link to="/">
+            {!isAdmin && ( // Only render these links if the user is not an admin
+              <ul
+                className={`hidden md:flex items-center space-x-2 lg:space-x-8 font-semibold ${
+                  isScrolled || isNotHome || isHovered
+                    ? "text-black"
+                    : "text-gray-200"
+                } text-sm`}
+              >
+                <Link to="/">
+                  <motion.li
+                    whileHover={{
+                      y: -5,
+                    }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 5,
+                    }}
+                  >
+                    <a
+                      href="#"
+                      className="hover:text-orange-500 hover:underline underline-offset-4"
+                    >
+                      HOME
+                    </a>
+                  </motion.li>
+                </Link>
+
                 <motion.li
                   whileHover={{
                     y: -5,
@@ -95,82 +122,50 @@ const Navbar = () => {
                     href="#"
                     className="hover:text-orange-500 hover:underline underline-offset-4"
                   >
-                    HOME
+                    ABOUT US
                   </a>
                 </motion.li>
-              </Link>
 
-              <motion.li
-                whileHover={{
-                  y: -5,
-                }}
-                transition={{
-                  type: "spring",
-                  stiffness: 300,
-                  damping: 5,
-                }}
-              >
-                <a
-                  href="#"
-                  className="hover:text-orange-500 hover:underline underline-offset-4"
+                <motion.li
+                  whileHover={{
+                    y: -5,
+                  }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 5,
+                  }}
                 >
-                  ABOUT US
-                </a>
-              </motion.li>
-
-              <motion.li
-                whileHover={{
-                  y: -5,
-                }}
-                transition={{
-                  type: "spring",
-                  stiffness: 300,
-                  damping: 5,
-                }}
-              >
-                <a
-                  href="#"
-                  className="hover:text-orange-500 hover:underline underline-offset-4"
-                >
-                  SERVICES
-                </a>
-              </motion.li>
-
-              <motion.li
-                whileHover={{
-                  y: -5,
-                }}
-                transition={{
-                  type: "spring",
-                  stiffness: 300,
-                  damping: 5,
-                }}
-              >
-                <a
-                  href="#"
-                  className="hover:text-orange-500 hover:underline underline-offset-4"
-                >
-                  CONTACT
-                </a>
-              </motion.li>
-
-              {/* <Link to="/login">
-                <li className="bg-orange-500 px-2 rounded-xl">
-                  <a href="#" className="hover:text-black ">
-                    LOGIN
+                  <a
+                    href="#"
+                    className="hover:text-orange-500 hover:underline underline-offset-4"
+                  >
+                    SERVICES
                   </a>
-                </li>
-              </Link> */}
+                </motion.li>
 
-              {/* <Link to="/signup">
-                <li className="bg-orange-500 px-2 rounded-xl">
-                  <a href="#" className="hover:text-black">
-                    SIGNUP
+                <motion.li
+                  whileHover={{
+                    y: -5,
+                  }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 5,
+                  }}
+                >
+                  <a
+                    href="#"
+                    className="hover:text-orange-500 hover:underline underline-offset-4"
+                  >
+                    CONTACT
                   </a>
-                </li>
-              </Link> */}
+                </motion.li>
 
-                <li onClick={handleLogOut} className=" flex items-center gap-2 bg-orange-500 p-2 rounded-xl hover:text-black">
+                <li
+                  onClick={handleLogOut}
+                  className=" flex items-center gap-2 bg-orange-500 p-2 rounded-xl hover:text-black"
+                >
                   <a href="#" className="">
                     Logout
                   </a>
@@ -178,8 +173,24 @@ const Navbar = () => {
                     <LuLogOut size={20} />
                   </span>
                 </li>
-            
-            </ul>
+              </ul>
+            )}
+
+            {isAdmin && ( // If user is an admin, only show the logout button
+              <ul className="flex items-center space-x-2 lg:space-x-8 font-semibold text-black text-sm">
+                <li
+                  onClick={handleLogOut}
+                  className=" flex items-center gap-2 bg-orange-500 p-2 rounded-xl hover:text-black"
+                >
+                  <a href="#" className="">
+                    Logout
+                  </a>
+                  <span>
+                    <LuLogOut size={20} />
+                  </span>
+                </li>
+              </ul>
+            )}
 
             <span
               onClick={toggleMenu}
@@ -208,14 +219,7 @@ const Navbar = () => {
           } origin-top`}
         >
           <ul className="flex flex-col items-center space-y-4 my-2">
-            {[
-              "Home",
-              "About Us",
-              "Services",
-              "Contact",
-              "SHOP BY CATEGORY",
-              "PARTNER WITH US",
-            ].map((item, index) => (
+            {["Home", "About Us", "Services", "Contact"].map((item, index) => (
               <li key={index}>
                 <a
                   href="#"

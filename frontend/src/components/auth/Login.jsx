@@ -106,23 +106,26 @@ const Login = () => {
 
             <div className="flex justify-center items-center gap-4 my-5">
               {/* Social login icons */}
+             
               <a
                 href="https://accounts.google.com/v3/signin/identifier?authuser=0&continue=https%3A%2F%2Fmyaccount.google.com%2F%3Fpli%3D1&ec=GAlAwAE&hl=en_GB&service=accountsettings&flowName=GlifWebSignIn&flowEntry=AddSession&dsh=S-1002799417%3A1736318843947362&ddm=1"
-                className=" p-2 rounded-full bg-opacity-30  hover:bg-white border hover:border-orange-500"
+                className="  rounded-full bg-opacity-30  hover:bg-white border hover:border-orange-500" 
               >
-                <FcGoogle size={22} />
+                <button className="p-2" disabled><FcGoogle size={22} /></button>
               </a>
               <a
                 href="https://www.facebook.com/login/"
-                className="p-2 rounded-full bg-opacity-30 hover:bg-white border hover:border-blue-500 "
+                className=" rounded-full bg-opacity-30 hover:bg-white border hover:border-blue-500 "
               >
-                <IoLogoFacebook size={22} className="text-[#385185]" />
+                <button className="p-2" disabled><IoLogoFacebook size={22} className="text-[#385185]" /></button>
+                
               </a>
               <a
                 href="https://www.instagram.com/accounts/login/"
-                className=" p-2 rounded-full bg-opacity-30 hover:bg-white border hover:border-pink-500"
+                className="rounded-full bg-opacity-30 hover:bg-white border hover:border-pink-500"
               >
-                <GrInstagram size={22} className="text-pink-700" />
+                <button className="p-2" disabled><GrInstagram size={22} className="text-pink-700" /></button>
+                
               </a>
             </div>
 
