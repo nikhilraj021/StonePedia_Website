@@ -10,35 +10,46 @@ import { toast } from "react-toastify";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  const adminEmails = ["admin@stonepedia.com", "superuser@stonepedia.com"];
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
       console.log("User Logged in Successfully", response);
-       // Get the ID token after successful login
-       const idToken = await response.user.getIdToken();
 
-       // Store the ID token in localStorage
-       localStorage.setItem("authToken", idToken);
+      // Get the ID token after successful login
+      const idToken = await response.user.getIdToken();
+
+      // Store the ID token and email in localStorage
+      localStorage.setItem("authToken", idToken);
+      localStorage.setItem("userEmail", email);
+
       toast.success("User Logged in Successfully!!", {
         position: "top-center",
-        autoClose: 2000
+        autoClose: 2000,
       });
-      navigate("/")
+
+      // Redirect based on whether the user is an admin or not
+      if (adminEmails.includes(email)) {
+        navigate("/admin");  // Redirect to admin if email is an admin
+      } else {
+        navigate("/");  // Redirect to home for non-admin users
+      }
     } catch (error) {
-      // console.log(error.message);
       const errorMessage = error.message.replace(/^Firebase: /, "");
       toast.error(errorMessage, {
         position: "bottom-center",
-        autoClose: 2000
+        autoClose: 2000,
       });
     }
   };
 
   return (
     <div className="relative h-screen overflow-hidden">
+      {/* Video Background */}
       <video
         className="absolute inset-0 w-full h-full object-cover"
         src="/stone.mp4"
@@ -46,7 +57,7 @@ const Login = () => {
         loop
         muted
       />
-
+      
       <div className="relative z-10 flex justify-center items-center h-full bg-black bg-opacity-50">
         <div className="text-center m-3 md:px-8 md:w-[430px] w-full">
           <div className="md:border bg-white bg-opacity-20 p-6 rounded-lg">
@@ -54,7 +65,7 @@ const Login = () => {
               <img
                 src="https://stonepedia.in/wp-content/uploads/2024/10/white-logo.png"
                 alt="logo"
-                className="w-60 mx-auto my-6 "
+                className="w-60 mx-auto my-6"
               />
             </Link>
 
@@ -94,11 +105,12 @@ const Login = () => {
             </div>
 
             <div className="flex justify-center items-center gap-4 my-5">
+              {/* Social login icons */}
               <a
                 href="https://accounts.google.com/v3/signin/identifier?authuser=0&continue=https%3A%2F%2Fmyaccount.google.com%2F%3Fpli%3D1&ec=GAlAwAE&hl=en_GB&service=accountsettings&flowName=GlifWebSignIn&flowEntry=AddSession&dsh=S-1002799417%3A1736318843947362&ddm=1"
                 className=" p-2 rounded-full bg-opacity-30  hover:bg-white border hover:border-orange-500"
               >
-                <FcGoogle size={22} className="" />
+                <FcGoogle size={22} />
               </a>
               <a
                 href="https://www.facebook.com/login/"
@@ -113,10 +125,6 @@ const Login = () => {
                 <GrInstagram size={22} className="text-pink-700" />
               </a>
             </div>
-            {/* text- text-[#385185] */}
-            {/* <span className="font-semibold text-[#385185] text-sm">
-                  Log in with Facebook
-                </span> */}
 
             <p className="md:my-3 ">
               <Link
