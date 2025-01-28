@@ -5,6 +5,10 @@ import { Link } from "react-router-dom";
 const SubNavbar = ({ isHovered, onMouseEnter, onMouseLeave }) => {
   const [isCategoriesHovered, setIsCategoriesHovered] = useState(false);
   const [isShopHovered, setIsShopHovered] = useState(false);
+  const [isBuyerCentralHovered, setIsBuyerCentralHovered] = useState(false);
+  const [isHelpCenterHovered, setIsHelpCenterHovered] = useState(false);
+  const [isGetTheAppHovered, setIsGetTheAppHovered] = useState(false);
+  const [isSupplierHovered, setIsSupplierHovered] = useState(false);
   const [hoveredCategory, setHoveredCategory] = useState(0);
   const [hoveredSubcategory, setHoveredSubcategory] = useState(0);
   const [hoveredSubsubcategory, setHoveredSubsubcategory] = useState(0);
@@ -418,6 +422,60 @@ const SubNavbar = ({ isHovered, onMouseEnter, onMouseLeave }) => {
             onMouseLeave={() => setIsShopHovered(false)}
           >
             Shop By Category
+          </li>
+        </Link>
+      </ul>
+      <ul
+        className="flex gap-5 cursor-pointer"
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+      >
+        <li
+          className={`cursor-pointer ${
+            isHovered ? "text-black" : "text-white"
+          } ${
+            isBuyerCentralHovered
+              ? "font-bold underline underline-offset-4"
+              : ""
+          }`}
+          onMouseEnter={() => setIsBuyerCentralHovered(true)}
+          onMouseLeave={() => setIsBuyerCentralHovered(false)}
+        >
+          Buyer Central
+        </li>
+        <li
+          className={`cursor-pointer ${
+            isHovered ? "text-black" : "text-white"
+          } ${
+            isHelpCenterHovered ? "font-bold underline underline-offset-4" : ""
+          }`}
+          onMouseEnter={() => setIsHelpCenterHovered(true)}
+          onMouseLeave={() => setIsHelpCenterHovered(false)}
+        >
+          Help Center
+        </li>
+        <li
+          className={`cursor-pointer ${
+            isHovered ? "text-black" : "text-white"
+          } ${
+            isGetTheAppHovered ? "font-bold underline underline-offset-4" : ""
+          }`}
+          onMouseEnter={() => setIsGetTheAppHovered(true)}
+          onMouseLeave={() => setIsGetTheAppHovered(false)}
+        >
+          Get the app
+        </li>
+        <Link to="/becomeSupplier">
+          <li
+            className={`cursor-pointer ${
+              isHovered ? "text-black" : "text-white"
+            } ${
+              isSupplierHovered ? "font-bold underline underline-offset-4" : ""
+            }`}
+            onMouseEnter={() => setIsSupplierHovered(true)}
+            onMouseLeave={() => setIsSupplierHovered(false)}
+          >
+            Become a supplier
           </li>
         </Link>
       </ul>

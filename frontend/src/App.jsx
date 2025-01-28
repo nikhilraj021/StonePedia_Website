@@ -5,7 +5,7 @@ import {
   Routes,
   useLocation,
 } from "react-router-dom";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/navbar/Navbar";
 import Home from "./components/home/Home";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
@@ -13,6 +13,7 @@ import Category from "./components/category/Category";
 import Admin from "./components/admin/Admin";
 import { ToastContainer } from "react-toastify";
 import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
+import BecomeASupplier from "./components/navbar/BecomeASupplier";
 
 const AppWrapper = () => {
   const location = useLocation();
@@ -58,6 +59,15 @@ const AppWrapper = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/becomeSupplier"
+          element={
+            <ProtectedRoute restricted={false}>
+              <BecomeASupplier />
+            </ProtectedRoute>
+          }
+        />
+        
         <Route
           path="/admin"
           element={
