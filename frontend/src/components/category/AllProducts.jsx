@@ -68,9 +68,11 @@ const AllProducts = () => {
     return matchesSearch && matchesCategory && matchesColor && matchesRating;
   });
 
-  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  const sortedProducts = [...filteredProducts].sort((a,b) => a.title.localeCompare(b.title))
+
+  const totalPages = Math.ceil(sortedProducts.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedProducts = filteredProducts.slice(
+  const paginatedProducts = sortedProducts.slice(
     startIndex,
     startIndex + itemsPerPage
   );
