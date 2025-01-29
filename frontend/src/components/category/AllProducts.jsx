@@ -3,6 +3,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase/firebase"; // Adjust the path to your firebase.js
 import Sorting from "./Sorting";
 import { FaAngleDoubleLeft, FaAngleDoubleRight } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const AllProducts = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -12,6 +13,7 @@ const AllProducts = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(8);
   const [allProducts, setAllProducts] = useState([]);
+  const navigate = useNavigate()
   // const [loading, setLoading] = useState(true);
 
   // Fetch data from Firestore
@@ -186,6 +188,7 @@ const AllProducts = () => {
             {paginatedProducts.map((product) => (
               <li
                 key={product.id}
+                onClick={()=> navigate(`/product-details/${product.id}`)}
                 className="border rounded-lg shadow-md hover:shadow-lg cursor-pointer bg-gray-900"
               >
                 <img

@@ -5,7 +5,7 @@ import { IoLogoTwitter } from "react-icons/io5";
 import { FaGooglePlus } from "react-icons/fa6";
 import { IoLogoLinkedin } from "react-icons/io5";
 
-const EachDetail = () => {
+const EachDetail = ({product}) => {
   const [value, setvalue] = useState(6000);
 
   const handleIncrement = () => {
@@ -21,7 +21,7 @@ const EachDetail = () => {
   return (
     <div className="w-[50%]">
       <div>
-        <h1 className="text-xl font-bold">Black Marquina</h1>
+        <h1 className="text-xl font-bold">{product.title}</h1>
         <p>
           <span className="font-semibold">Starting Price</span> : ₹1.00 per
           sq/ft

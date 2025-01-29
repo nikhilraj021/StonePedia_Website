@@ -61,7 +61,7 @@ const AppWrapper = () => {
           }
         />
         <Route
-          path="/product-details"
+          path="/product-details/:id"
           element={
             <ProtectedRoute restricted={false}>
               <ProductDetails />

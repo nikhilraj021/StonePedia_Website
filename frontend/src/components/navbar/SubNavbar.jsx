@@ -430,7 +430,7 @@ const SubNavbar = ({ isHovered, onMouseEnter, onMouseLeave }) => {
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       >
-        <Link to="/product-details">
+        <Link>
           <li
             className={`cursor-pointer ${
               isHovered ? "text-black" : "text-white"
