@@ -15,6 +15,7 @@ import { ToastContainer } from "react-toastify";
 import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
 import BecomeASupplier from "./components/navbar/BecomeASupplier";
 import ProductDetails from "./components/category/ProductDetails";
+import Cart from "./components/Cart";
 
 const AppWrapper = () => {
   const location = useLocation();
@@ -65,6 +66,14 @@ const AppWrapper = () => {
           element={
             <ProtectedRoute restricted={false}>
               <ProductDetails />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cart"
+          element={
+            <ProtectedRoute restricted={false}>
+              <Cart />
             </ProtectedRoute>
           }
         />

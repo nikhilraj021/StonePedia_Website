@@ -129,14 +129,16 @@ const Navbar = () => {
                 </a>
               </motion.li>
 
-              <div className="relative inline-block cursor-pointer">
-                <span className=" cursor-pointer">
-                  <BsCart3 size={20} />
-                </span>
-                <span className="absolute -top-4 px-1 py-0.5 -right-2 bg-orange-500 text-white text-xs font-bold rounded-full">
-                  0
-                </span>
-              </div>
+              <Link to="/cart">
+                <div className="relative inline-block cursor-pointer">
+                  <span className=" cursor-pointer">
+                    <BsCart3 size={20} />
+                  </span>
+                  <span className="absolute -top-4 px-1 py-0.5 -right-2 bg-orange-500 text-white text-xs font-bold rounded-full">
+                    0
+                  </span>
+                </div>
+              </Link>
 
               <li
                 onClick={handleLogOut}
